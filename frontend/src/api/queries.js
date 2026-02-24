@@ -1,0 +1,64 @@
+import { gql } from '@apollo/client';
+
+// Общий запрос для получения списка комнат (используется везде)
+export const GET_ROOMS = gql`
+  query GetRooms {
+    rooms {
+      nodes {
+        id
+        name
+      }
+    }
+  }
+`;
+
+// Запрос для страницы Energy
+export const GET_ENERGY_DATA = gql`
+  query GetEnergy($where: EnergyFilterInput) {
+    energy(
+      first: 50, 
+      where: $where, 
+      order: { timestamp: DESC }
+    ) {
+      nodes {
+        id
+        energyValue
+        timestamp
+        room {
+          name
+        }
+      }
+      totalCount
+    }
+  }
+`;
+
+
+export const GET_AIR_DATA = gql`
+  query GetAir($where: AirQualityFilterInput) {
+    air(first: 50, where: $where, order: { timestamp: DESC }) {
+      nodes {
+        id
+        co2
+        humidity
+        timestamp
+        room { name }
+      }
+      totalCount
+    }
+  }
+`;
+
+export const GET_MOTION_DATA = gql`
+  query GetMotion($where: MotionFilterInput) {
+    motion(first: 50, where: $where, order: { timestamp: DESC }) {
+      nodes {
+        id
+        motionDetected
+        timestamp
+        room { name }
+      }
+      totalCount
+    }
+  }
+`;
