@@ -20,16 +20,16 @@ const MotionPage = () => {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>Датчики движения</Typography>
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>Motion detectors</Typography>
 
       <FormControl sx={{ minWidth: 300, mb: 3 }}>
-        <InputLabel>Выберите комнату</InputLabel>
+        <InputLabel>Select room</InputLabel>
         <Select
           value={selectedRoom}
-          label="Выберите комнату"
+          label="Select room"
           onChange={(e) => setSelectedRoom(e.target.value)}
         >
-          <MenuItem value=""><em>Все комнаты</em></MenuItem>
+          <MenuItem value=""><em>All rooms</em></MenuItem>
           {roomsData?.rooms?.nodes.map((room) => (
             <MenuItem key={room.id} value={room.id}>{room.name}</MenuItem>
           ))}
@@ -40,9 +40,9 @@ const MotionPage = () => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}><b>Время</b></TableCell>
-              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}><b>Комната</b></TableCell>
-              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff', }}><b>Статус</b></TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}><b>Time</b></TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}><b>Room</b></TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff', }}><b>Status</b></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -52,9 +52,9 @@ const MotionPage = () => {
                 <TableCell>{item.room?.name || '—'}</TableCell>
                 <TableCell align="center">
                   {item.motionDetected ? (
-                    <Chip label="ДВИЖЕНИЕ" color="error" variant="filled" />
+                    <Chip label="Motion" color="error" variant="filled" />
                   ) : (
-                    <Chip label="Спокойно" color="success" variant="outlined" />
+                    <Chip label="Quite" color="success" variant="outlined" />
                   )}
                 </TableCell>
               </TableRow>

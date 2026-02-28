@@ -14,19 +14,22 @@ export const GET_ROOMS = gql`
 
 // Запрос для страницы Energy
 export const GET_ENERGY_DATA = gql`
-  query GetEnergy($where: EnergyFilterInput) {
+  query GetEnergy($where: EnergyFilterInput, $after: String) {
     energy(
       first: 50, 
+      after: $after, 
       where: $where, 
-      order: { timestamp: DESC }
+      order: { timestamp: DESC } 
     ) {
       nodes {
         id
         energyValue
         timestamp
-        room {
-          name
-        }
+        room { name }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
       totalCount
     }

@@ -20,11 +20,11 @@ const AirQualityPage = () => {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 3 }}>Качество воздуха</Typography>
+      <Typography variant="h4" sx={{ mb: 3 }}>Air Quality</Typography>
       <FormControl sx={{ minWidth: 300, mb: 3 }}>
-        <InputLabel>Выберите комнату</InputLabel>
-        <Select value={selectedRoom} label="Выберите комнату" onChange={(e) => setSelectedRoom(e.target.value)}>
-          <MenuItem value=""><em>Все комнаты</em></MenuItem>
+        <InputLabel>Select Room</InputLabel>
+        <Select value={selectedRoom} label="Select Room" onChange={(e) => setSelectedRoom(e.target.value)}>
+          <MenuItem value=""><em>All Rooms</em></MenuItem>
           {roomsData?.rooms?.nodes.map((room) => (
             <MenuItem key={room.id} value={room.id}>{room.name}</MenuItem>
           ))}
@@ -35,10 +35,10 @@ const AirQualityPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}>Время</TableCell>
-              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}>Комната</TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}>Time</TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}>Room</TableCell>
               <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}>CO2 (ppm)</TableCell>
-              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}>Влажность (%)</TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}>Humidity (%)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
