@@ -38,8 +38,12 @@ export const GET_ENERGY_DATA = gql`
 
 
 export const GET_AIR_DATA = gql`
-  query GetAir($where: AirQualityFilterInput) {
-    air(first: 50, where: $where, order: { timestamp: DESC }) {
+  query GetAir($where: AirQualityFilterInput, $after: String) {
+    air(first: 50, 
+      after: $after, 
+      where: $where, 
+      order: { timestamp: DESC } 
+      ) {
       nodes {
         id
         co2
@@ -47,20 +51,32 @@ export const GET_AIR_DATA = gql`
         timestamp
         room { name }
       }
+        pageInfo {
+        hasNextPage
+        endCursor
+      }
       totalCount
     }
   }
 `;
 
 export const GET_MOTION_DATA = gql`
-  query GetMotion($where: MotionFilterInput) {
-    motion(first: 50, where: $where, order: { timestamp: DESC }) {
+  query GetMotion($where: MotionFilterInput, $after: String) {
+    motion(first: 50, 
+      after: $after, 
+      where: $where, 
+      order: { timestamp: DESC } 
+      ) {
       nodes {
         id
         motionDetected
         timestamp
         room { name }
       }
+        pageInfo {
+        hasNextPage
+        endCursor
+}
       totalCount
     }
   }

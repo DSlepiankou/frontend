@@ -3,20 +3,41 @@ import { useQuery } from '@apollo/client/react';
 import { GET_ROOMS, GET_MOTION_DATA } from '../api/queries';
 import { 
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
-  Paper, Box, Typography, MenuItem, FormControl, InputLabel, Select, Chip 
+  Paper, Box, Typography, MenuItem, FormControl, InputLabel, Select, Chip, CircularProgress 
 } from '@mui/material';
-import { AlignCenter } from 'lucide-react';
 
 const MotionPage = () => {
   const [selectedRoom, setSelectedRoom] = useState("");
   const { data: roomsData } = useQuery(GET_ROOMS);
+  const { loading, data, fetchMore } = useQuery(GET_MOTION_DATA, {
+      variables: { 
+        where: selectedRoom ? { roomId: { eq: selectedRoom } } : undefined,
+        after: null // Начинаем с начала
+      },
+    // Это критично для того, чтобы fetchMore работал с merge
+    notifyOnNetworkStatusChange: true, 
+  });
+
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    
+    if (scrollHeight - scrollTop <= clientHeight + 100 && !loading) {
+      if (data?.motion?.pageInfo?.hasNextPage) {
+        fetchMore({
+          variables: { 
+            // Передаем курсор
+            after: data.motion.pageInfo.endCursor,
+            // ОБЯЗАТЕЛЬНО передаем тот же where, что и в основном запросе
+            where: selectedRoom ? { roomId: { eq: selectedRoom } } : undefined,
+          }
+        });
+      }
+    }
+};
 
   const filter = selectedRoom ? { roomId: { eq: selectedRoom } } : undefined;
 
-  const { loading, data } = useQuery(GET_MOTION_DATA, {
-    variables: { where: filter },
-    pollInterval: 5000,
-  });
+  
 
   return (
     <Box>
@@ -36,7 +57,7 @@ const MotionPage = () => {
         </Select>
       </FormControl>
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} onScroll={handleScroll} sx={{ maxHeight: '75vh' }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -61,6 +82,11 @@ const MotionPage = () => {
             ))}
           </TableBody>
         </Table>
+        {loading && (
+                  <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                    <CircularProgress size={24} />
+                  </Box>
+                )}
       </TableContainer>
     </Box>
   );

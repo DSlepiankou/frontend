@@ -13,12 +13,12 @@ import {
 
 const EnergyPage = () => {
   const [selectedRoom, setSelectedRoom] = useState("");
-const { data: roomsData } = useQuery(GET_ROOMS);
- const { data, loading, fetchMore } = useQuery(GET_ENERGY_DATA, {
-  variables: { 
-    where: selectedRoom ? { roomId: { eq: selectedRoom } } : undefined,
-    after: null // Начинаем с начала
-  },
+  const { data: roomsData } = useQuery(GET_ROOMS);
+  const { data, loading, fetchMore } = useQuery(GET_ENERGY_DATA, {
+    variables: { 
+      where: selectedRoom ? { roomId: { eq: selectedRoom } } : undefined,
+      after: null // Начинаем с начала
+    },
   // Это критично для того, чтобы fetchMore работал с merge
   notifyOnNetworkStatusChange: true, 
 });
@@ -42,17 +42,18 @@ const handleScroll = (e) => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" sx={{ mb: 3 }}>Energy</Typography>
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>Energy</Typography>
       
-      <FormControl sx={{ mb: 3, minWidth: 200 }}>
+      <FormControl sx={{ minWidth: 300, mb: 3 }}>
         <InputLabel>Select Room</InputLabel>
         <Select 
             value={selectedRoom} 
-            label="Room" 
+            label="Select Room" 
             onChange={(e) => setSelectedRoom(e.target.value)}
         >
           <MenuItem value=""><em>All rooms</em></MenuItem>
-          {roomsData?.rooms?.nodes.map(r => <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>)}
+          {roomsData?.rooms?.nodes.map(r => 
+            <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>)}
         </Select>
       </FormControl>
 
@@ -60,9 +61,9 @@ const handleScroll = (e) => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell><b>Time</b></TableCell>
-              <TableCell><b>Room</b></TableCell>
-              <TableCell align="right"><b>Value</b></TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}><b>Time</b></TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}><b>Room</b></TableCell>
+              <TableCell sx={{ backgroundColor: '#1976d2', color: '#fff' }}><b>Value</b></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
